@@ -10,6 +10,7 @@ class Parser {
   def convertToJsonValue(str: String): JsonValue = {
     if (str.head == '\"') JsonString(str.init.tail)
     else if (str == "true") JsonTrue
+    else if (str == "false") JsonFalse
     else JsonNumber(str.toInt)
   }
 

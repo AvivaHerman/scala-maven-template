@@ -48,5 +48,9 @@ class JsonObjectTest extends SpecificationWithJUnit {
       parser.parse("{\"a\":true}") must_== JsonObject(Map("a" -> JsonTrue))
     }
 
+    "contain false" in new Context {
+      parser.parse("{\"a\":false}") must_== JsonObject(Map("a" -> JsonFalse))
+    }
+
   }
 }
