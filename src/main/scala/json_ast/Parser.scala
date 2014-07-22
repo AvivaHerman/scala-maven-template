@@ -9,9 +9,17 @@ class Parser {
 
   def parse(str: String): JsonObject = {
 
+
     if (str == "{}")
       JsonObject.empty
-    else
-      new JsonObject(HashMap[String, JsonNumber]("a" -> JsonNumber(3)))
+    else {
+      var pairsStrList = str.init.tail.split(",")
+
+      var map = HashMap[String, JsonNumber]()
+
+      pairsStrList.foreach(pair => map += (pair.split(":")(0).init.tail -> JsonNumber(pair.split(":")(1).toInt)))
+
+      JsonObject(map)
+    }
   }
 }
