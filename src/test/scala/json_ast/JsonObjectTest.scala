@@ -16,57 +16,37 @@ class JsonObjectTest extends SpecificationWithJUnit {
 
   "JsonObject" should {
     "be empty" in new Context {
-      var jsonObj = parser.parse("{}")
-
-      jsonObj must_== (JsonObject.empty)
+      parser.parse("{}") must_== (JsonObject.empty)
     }
 
     "with single number" in new Context {
-      var jsonObj = parser.parse("{\"a\":3}")
-
-      var map = Map("a" -> JsonNumber(3))
-
-      jsonObj must_== JsonObject(map)
+      parser.parse("{\"a\":3}") must_== JsonObject(Map("a" -> JsonNumber(3)))
     }
 
     "contain many numbers" in new Context {
-      var jsonObj = parser.parse("{\"a\":3,\"b\":2}")
-
-      var map = Map("a" -> JsonNumber(3), "b" -> JsonNumber(2))
-
-      jsonObj must_== JsonObject(map)
+      parser.parse("{\"a\":3,\"b\":2}") must_== JsonObject(Map("a" -> JsonNumber(3), "b" -> JsonNumber(2)))
     }
 
     "contain string" in new Context {
-      var jsonObj = parser.parse("{\"name\":\"Aviva\"}")
-
-      var map = Map("name" -> JsonString("Aviva"))
-
-      jsonObj must_== JsonObject(map)
+      parser.parse("{\"name\":\"Aviva\"}") must_== JsonObject(Map("name" -> JsonString("Aviva")))
     }
 
     "contain many strings" in new Context {
-      var jsonObj = parser.parse("{\"name\":\"Aviva\",\"birthday\":\"March 3rd 1990\"}")
-
-      var map = Map("name" -> JsonString("Aviva"), "birthday" -> JsonString("March 3rd 1990"))
-
-      jsonObj must_== JsonObject(map)
+      parser.parse("{\"name\":\"Aviva\",\"birthday\":\"March 3rd 1990\"}") must_==
+        JsonObject(Map("name" -> JsonString("Aviva"), "birthday" -> JsonString("March 3rd 1990")))
     }
 
     "contain strings and numbers" in new Context {
-      var jsonObj = parser.parse("{\"a\":2,\"name\":\"Aviva\",\"b\":5,\"birthday\":\"March 3rd 1990\"}")
-
-      var map = Map("a" -> JsonNumber(2), "name" -> JsonString("Aviva"), "b" -> JsonNumber(5),"birthday" -> JsonString("March 3rd 1990"))
-
-      jsonObj must_== JsonObject(map)
+      parser.parse("{\"a\":2,\"name\":\"Aviva\",\"b\":5,\"birthday\":\"March 3rd 1990\"}") must_==
+        JsonObject(Map("a" -> JsonNumber(2),
+          "name" -> JsonString("Aviva"),
+          "b" -> JsonNumber(5),
+          "birthday" -> JsonString("March 3rd 1990")))
     }
 
     "contain true" in new Context {
-      var jsonObj = parser.parse("{\"a\":true}")
-
-      var map = Map("a" -> JsonTrue)
-
-      jsonObj must_== JsonObject(map)
+      parser.parse("{\"a\":true}") must_== JsonObject(Map("a" -> JsonTrue))
     }
+
   }
 }
