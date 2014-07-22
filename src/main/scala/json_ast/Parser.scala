@@ -16,14 +16,18 @@ class Parser {
   private def isString(str: String): Boolean = {
     str.head == '\"'
   }
-  
+
+  private def isJsonNull(str: String): Boolean = {
+    str == "null"
+  }
+
   def convertToJsonValue(str: String): JsonValue = {
     if (isString(str)) JsonString(str.init.tail)
     else if (isJsonTrue(str)) JsonTrue
     else if (isJsonFalse(str)) JsonFalse
+    else if (isJsonNull(str)) JsonNull
     else JsonNumber(str.toInt)
   }
-
 
   def parse(objStr: String): JsonObject = {
     var objContent = Map[String, JsonValue]()
