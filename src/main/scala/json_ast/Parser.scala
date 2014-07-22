@@ -7,6 +7,10 @@ import scala.collection.immutable.HashMap
  */
 class Parser {
 
+  def convertToJsonValue(str: String): JsonValue = {
+    if (str.head == '\"') JsonString(str.init.tail) else JsonNumber(str.toInt)
+  }
+
   def parse(str: String): JsonObject = {
 
 
@@ -15,9 +19,9 @@ class Parser {
     else {
       var pairsStrList = str.init.tail.split(",")
 
-      var map = HashMap[String, JsonNumber]()
+      var map = HashMap[String, JsonValue]()
 
-      pairsStrList.foreach(pair => map += (pair.split(":")(0).init.tail -> JsonNumber(pair.split(":")(1).toInt)))
+      pairsStrList.foreach(pair => map += (pair.split(":")(0).init.tail -> convertToJsonValue(pair.split(":")(1))))
 
       JsonObject(map)
     }
