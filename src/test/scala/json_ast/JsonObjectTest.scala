@@ -2,8 +2,6 @@ package json_ast
 
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.specification.Scope
-//import scala.collection.immutable.HashMap
-
 
 /**
  * Created by Aviva_Herman on 7/22/14.
@@ -29,6 +27,10 @@ class JsonObjectTest extends SpecificationWithJUnit {
 
     "contain string" in new Context {
       parser.parse("{\"name\":\"Aviva\"}") must_== JsonObject(Map("name" -> JsonString("Aviva")))
+    }
+
+    "contain empty string" in new Context {
+      parser.parse("{\"name\":\"\"}") must_== JsonObject(Map("name" -> JsonString("")))
     }
 
     "contain many strings" in new Context {
