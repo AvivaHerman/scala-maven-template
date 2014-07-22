@@ -1,7 +1,5 @@
 package json_ast
 
-//import scala.collection.immutable.HashMap
-
 /**
  * Created by Aviva_Herman on 7/22/14.
  */
@@ -14,17 +12,16 @@ class Parser {
     else JsonNumber(str.toInt)
   }
 
-  def parse(str: String): JsonObject = {
-    if (str == "{}")
-      JsonObject.empty
-    else {
-      var pairsStrList = str.init.tail.split(",")
+  def parse(objStr: String): JsonObject = {
+    var objContent = Map[String, JsonValue]()
 
-      var map = Map[String, JsonValue]()
-
-      pairsStrList.foreach(pair => map += (pair.split(":")(0).init.tail -> convertToJsonValue(pair.split(":")(1))))
-
-      JsonObject(map)
+    objStr.init.tail.split(",").filter(s => s != "").foreach {
+      field => {
+        val pair = field.split(":");
+        objContent += (pair(0).init.tail -> convertToJsonValue(pair(1)))
+      }
     }
+
+    JsonObject(objContent)
   }
 }

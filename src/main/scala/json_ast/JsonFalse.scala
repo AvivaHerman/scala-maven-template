@@ -3,6 +3,6 @@ package json_ast
 /**
  * Created by Aviva_Herman on 7/22/14.
  */
-object JsonFalse extends JsonValue {
+object JsonFalse extends JsonBoolean {
 
 }

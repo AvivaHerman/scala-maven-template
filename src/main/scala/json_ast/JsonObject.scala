@@ -10,5 +10,5 @@ case class JsonObject(pairs: Map[String, JsonValue]) {
 }
 
 object JsonObject {
-  def empty = new JsonObject(HashMap())
+  def empty = new JsonObject(Map())
 }
