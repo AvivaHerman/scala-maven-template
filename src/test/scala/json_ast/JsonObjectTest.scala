@@ -46,5 +46,15 @@ class JsonObjectTest extends SpecificationWithJUnit {
 
       jsonObj must_== JsonObject(map)
     }
+
+    "contain many strings" in new Context {
+      var jsonObj = parser.parse("{\"name\":\"Aviva\",\"birthday\":\"March 3rd 1990\"}")
+
+      var map = HashMap[String, JsonString]("name" -> JsonString("Aviva"), "birthday" -> JsonString("March 3rd 1990"))
+
+      jsonObj must_== JsonObject(map)
+    }
+
+
   }
 }
