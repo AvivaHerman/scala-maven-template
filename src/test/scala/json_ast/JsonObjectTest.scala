@@ -18,11 +18,11 @@ class JsonObjectTest extends SpecificationWithJUnit {
     }
 
     "with single number" in new Context {
-      parser.parse("{\"a\":3}") must_== JsonObject(Map("a" -> JsonNumber(3)))
+      parser.parse("{\"a\":3}") must_== JsonObject(Map("a" -> JsonInt(3)))
     }
 
     "contain many numbers" in new Context {
-      parser.parse("{\"a\":3,\"b\":2}") must_== JsonObject(Map("a" -> JsonNumber(3), "b" -> JsonNumber(2)))
+      parser.parse("{\"a\":3,\"b\":2}") must_== JsonObject(Map("a" -> JsonInt(3), "b" -> JsonInt(2)))
     }
 
     "contain string" in new Context {
@@ -40,9 +40,9 @@ class JsonObjectTest extends SpecificationWithJUnit {
 
     "contain strings and numbers" in new Context {
       parser.parse("{\"a\":2,\"name\":\"Aviva\",\"b\":5,\"birthday\":\"March 3rd 1990\"}") must_==
-        JsonObject(Map("a" -> JsonNumber(2),
+        JsonObject(Map("a" -> JsonInt(2),
           "name" -> JsonString("Aviva"),
-          "b" -> JsonNumber(5),
+          "b" -> JsonInt(5),
           "birthday" -> JsonString("March 3rd 1990")))
     }
 
@@ -56,6 +56,10 @@ class JsonObjectTest extends SpecificationWithJUnit {
 
     "contain null" in new Context {
       parser.parse("{\"a\":null}") must_== JsonObject(Map("a" -> JsonNull))
+    }
+
+    "contain double" in new Context {
+      parser.parse("{\"a\":3.5}") must_== JsonObject(Map("a" -> JsonDouble(3.5)))
     }
 
   }

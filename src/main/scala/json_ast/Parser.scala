@@ -21,12 +21,17 @@ class Parser {
     str == "null"
   }
 
+  private def isJsonInt(str: String): Boolean = {
+    str forall(c => c.isDigit)
+  }
+
   def convertToJsonValue(str: String): JsonValue = {
     if (isString(str)) JsonString(str.init.tail)
     else if (isJsonTrue(str)) JsonTrue
     else if (isJsonFalse(str)) JsonFalse
     else if (isJsonNull(str)) JsonNull
-    else JsonNumber(str.toInt)
+    else if (isJsonInt(str)) JsonInt(str.toInt)
+    else JsonDouble(str.toDouble)
   }
 
   def parse(objStr: String): JsonObject = {
