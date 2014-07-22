@@ -5,12 +5,25 @@ package json_ast
  */
 class Parser {
 
+  private def isJsonFalse(str: String): Boolean = {
+    str == "false"
+  }
+
+  private def isJsonTrue(str: String): Boolean = {
+    str == "true"
+  }
+
+  private def isString(str: String): Boolean = {
+    str.head == '\"'
+  }
+  
   def convertToJsonValue(str: String): JsonValue = {
-    if (str.head == '\"') JsonString(str.init.tail)
-    else if (str == "true") JsonTrue
-    else if (str == "false") JsonFalse
+    if (isString(str)) JsonString(str.init.tail)
+    else if (isJsonTrue(str)) JsonTrue
+    else if (isJsonFalse(str)) JsonFalse
     else JsonNumber(str.toInt)
   }
+
 
   def parse(objStr: String): JsonObject = {
     var objContent = Map[String, JsonValue]()
