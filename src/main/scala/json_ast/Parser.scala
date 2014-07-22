@@ -22,7 +22,11 @@ class Parser {
   }
 
   private def isJsonInt(str: String): Boolean = {
-    str forall(c => c.isDigit)
+    str forall (c => c.isDigit)
+  }
+
+  private def isJsonArray(str: String): Boolean = {
+    str.head == '['
   }
 
   def convertToJsonValue(str: String): JsonValue = {
@@ -30,6 +34,7 @@ class Parser {
     else if (isJsonTrue(str)) JsonTrue
     else if (isJsonFalse(str)) JsonFalse
     else if (isJsonNull(str)) JsonNull
+    else if (isJsonArray(str)) JsonArray()
     else if (isJsonInt(str)) JsonInt(str.toInt)
     else JsonDouble(str.toDouble)
   }

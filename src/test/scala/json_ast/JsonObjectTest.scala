@@ -40,10 +40,12 @@ class JsonObjectTest extends SpecificationWithJUnit {
 
     "contain strings and numbers" in new Context {
       parser.parse("{\"a\":2,\"name\":\"Aviva\",\"b\":5,\"birthday\":\"March 3rd 1990\"}") must_==
-        JsonObject(Map("a" -> JsonInt(2),
+        JsonObject(Map(
+          "a" -> JsonInt(2),
           "name" -> JsonString("Aviva"),
           "b" -> JsonInt(5),
-          "birthday" -> JsonString("March 3rd 1990")))
+          "birthday" -> JsonString("March 3rd 1990"))
+        )
     }
 
     "contain true" in new Context {
@@ -60,6 +62,10 @@ class JsonObjectTest extends SpecificationWithJUnit {
 
     "contain double" in new Context {
       parser.parse("{\"a\":3.5}") must_== JsonObject(Map("a" -> JsonDouble(3.5)))
+    }
+
+    "contain empty array" in new Context {
+      parser.parse("{\"a\":[]}") must_== JsonObject(Map("a" -> JsonArray()))
     }
 
     "contain mixed types" in new Context {
