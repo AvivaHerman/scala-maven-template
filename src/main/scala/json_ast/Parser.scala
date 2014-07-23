@@ -30,51 +30,45 @@ class Parser {
   }
 
   private def convertToJsonValue(str: String): JsonValue = {
-    if (str.isEmpty) JsonEmpty
-    else if (isString(str)) JsonString(str.init.tail)
-    else if (isJsonTrue(str)) JsonTrue
-    else if (isJsonFalse(str)) JsonFalse
-    else if (isJsonNull(str)) JsonNull
-    else if (isJsonArray(str)) {
-      var values = List[JsonValue]()
-      str.init.tail.split(",").filter(_ != "").map(s => (convertToJsonValue(s))).foreach(v => values = v :: values)
-      JsonArray(values.reverse)
-    }
-    else if (isJsonInt(str)) JsonInt(str.toInt)
-    else JsonDouble(str.toDouble)
+    if (isString(str))          JsonString(str.init.tail)
+    else if (isJsonTrue(str))   JsonTrue
+    else if (isJsonFalse(str))  JsonFalse
+    else if (isJsonNull(str))   JsonNull
+    else if (isJsonArray(str))  convertToJsonArray(str)
+    else if (isJsonInt(str))    JsonInt(str.toInt)
+    else                        JsonDouble(str.toDouble)
+  }
+
+  private def convertToJsonArray(str: String): JsonArray = {
+    JsonArray(splitWithBalancedBrackets(str).map(s => convertToJsonValue(s)))
+  }
+
+  private def trimEdges(str: String) = {
+    str.init.tail
   }
 
   private def splitWithBalancedBrackets(strToParse: String): List[String] = {
-    var strings = strToParse.init.tail.split(",").filter(_ != "")
-
     var result = List[String]()
-    var squareBracket = 0
+    var bracketsCount = 0
 
-    strings.foreach{ str =>
-      if (squareBracket > 0)
+    trimEdges(strToParse).split(",").filter(_ != "").foreach{ str =>
+      if (bracketsCount > 0)
         result = result.init ::: List(s"${result.last},${str}")
       else
         result = result ::: List(str)
 
-      str.foreach {
-        c => if (c == '[') squareBracket = squareBracket + 1
-        else if (c == ']') squareBracket = squareBracket - 1
-      }
+      bracketsCount = bracketsCount + str.filter(_ == '[').length - str.filter(_ == ']').length
     }
 
     result
   }
 
-  def parse(objStr: String): JsonObject = {
-    var objContent = Map[String, JsonValue]()
-
-    splitWithBalancedBrackets(objStr).foreach {
-      field => {
-        val pair = field.split(":");
-        objContent += (pair(0).init.tail -> convertToJsonValue(pair(1)))
-      }
-    }
-
-    JsonObject(objContent)
+  private def convertToKeyValue(fieldStr: String): (String, JsonValue) = {
+    trimEdges(fieldStr.split(":")(0)) -> convertToJsonValue(fieldStr.split(":")(1))
   }
+
+  def convertToJsonObject(objStr: String): JsonObject = {
+    JsonObject(splitWithBalancedBrackets(objStr).map(s => convertToKeyValue(s)).toMap)
+  }
+
 }
