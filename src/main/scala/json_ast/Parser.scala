@@ -29,15 +29,21 @@ class Parser {
     str.head == '['
   }
 
+  private def isJsonObject(str: String): Boolean = {
+    str.head == '{'
+  }
+
   private def convertToJsonValue(str: String): JsonValue = {
     if (isString(str))          JsonString(str.init.tail)
     else if (isJsonTrue(str))   JsonTrue
     else if (isJsonFalse(str))  JsonFalse
     else if (isJsonNull(str))   JsonNull
     else if (isJsonArray(str))  convertToJsonArray(str)
+    else if (isJsonObject(str)) convertToJsonObject(str)
     else if (isJsonInt(str))    JsonInt(str.toInt)
     else                        JsonDouble(str.toDouble)
   }
+
 
   private def convertToJsonArray(str: String): JsonArray = {
     JsonArray(splitWithBalancedBrackets(str).map(s => convertToJsonValue(s)))
@@ -57,7 +63,7 @@ class Parser {
       else
         result = result ::: List(str)
 
-      bracketsCount = bracketsCount + str.filter(_ == '[').length - str.filter(_ == ']').length
+      bracketsCount = bracketsCount + str.filter(_ == '[').length - str.filter(_ == ']').length + str.filter(_ == '{').length - str.filter(_ == '}').length
     }
 
     result
