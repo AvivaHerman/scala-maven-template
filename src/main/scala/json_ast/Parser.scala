@@ -44,7 +44,9 @@ class Parser {
     else JsonDouble(str.toDouble)
   }
 
-  private def splitWithBalancedBrackets(strings: Array[String]): List[String] = {
+  private def splitWithBalancedBrackets(strToParse: String): List[String] = {
+    var strings = strToParse.init.tail.split(",").filter(_ != "")
+
     var result = List[String]()
     var squareBracket = 0
 
@@ -66,7 +68,7 @@ class Parser {
   def parse(objStr: String): JsonObject = {
     var objContent = Map[String, JsonValue]()
 
-    splitWithBalancedBrackets(objStr.init.tail.split(",").filter(_ != "")).foreach {
+    splitWithBalancedBrackets(objStr).foreach {
       field => {
         val pair = field.split(":");
         objContent += (pair(0).init.tail -> convertToJsonValue(pair(1)))
