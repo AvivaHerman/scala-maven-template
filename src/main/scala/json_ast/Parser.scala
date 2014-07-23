@@ -30,11 +30,16 @@ class Parser {
   }
 
   def convertToJsonValue(str: String): JsonValue = {
-    if (isString(str)) JsonString(str.init.tail)
+    if (str.isEmpty) JsonEmpty
+    else if (isString(str)) JsonString(str.init.tail)
     else if (isJsonTrue(str)) JsonTrue
     else if (isJsonFalse(str)) JsonFalse
     else if (isJsonNull(str)) JsonNull
-    else if (isJsonArray(str)) JsonArray()
+    else if (isJsonArray(str)) {
+      var values = List[JsonValue]()
+      str.init.tail.split(",").map( s => (convertToJsonValue(s)) ).foreach( v => values = v :: values )
+      JsonArray(values.reverse.filter( _ != JsonEmpty ))
+    }
     else if (isJsonInt(str)) JsonInt(str.toInt)
     else JsonDouble(str.toDouble)
   }

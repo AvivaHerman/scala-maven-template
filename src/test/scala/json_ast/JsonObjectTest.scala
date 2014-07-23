@@ -65,7 +65,11 @@ class JsonObjectTest extends SpecificationWithJUnit {
     }
 
     "contain empty array" in new Context {
-      parser.parse("{\"a\":[]}") must_== JsonObject(Map("a" -> JsonArray()))
+      parser.parse("{\"a\":[]}") must_== JsonObject(Map("a" -> JsonArray(List())))
+    }
+
+    "contain array with one element" in new Context {
+      parser.parse("{\"a\":[2]}") must_== JsonObject(Map("a" -> JsonArray(List(JsonInt(2)))))
     }
 
     "contain mixed types" in new Context {
@@ -80,6 +84,5 @@ class JsonObjectTest extends SpecificationWithJUnit {
           "g" -> JsonTrue)
         )
     }
-
   }
 }
