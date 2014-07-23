@@ -72,6 +72,10 @@ class JsonObjectTest extends SpecificationWithJUnit {
       parser.parse("{\"a\":[2]}") must_== JsonObject(Map("a" -> JsonArray(List(JsonInt(2)))))
     }
 
+    "contain array with many values" in new Context {
+      parser.parse("{\"a\":[2,4]}") must_== JsonObject(Map("a" -> JsonArray(List(JsonInt(2),JsonInt(4)))))
+    }
+
     "contain mixed types" in new Context {
       parser.parse("{\"a\":3.5,\"b\":2,\"c\":\"\",\"d\":\"Aviva\",\"e\":null,\"f\":false,\"g\":true}") must_==
         JsonObject(Map(
