@@ -90,6 +90,11 @@ class JsonObjectTest extends SpecificationWithJUnit {
       parser.convertToJsonObject("{\"a\":2,\"b\":{}}") must_== JsonObject(Map("a" -> JsonInt(2),"b" -> JsonObject(Map())))
     }
 
+    "contain complex nested object" in new Context {
+      parser.convertToJsonObject("{\"a\":2,\"b\":{\"c\":4,\"d\":[true,3.5,false]}}") must_==
+        JsonObject(Map("a" -> JsonInt(2),"b" -> JsonObject(Map("c" -> JsonInt(4),"d" -> JsonArray(List(JsonTrue,JsonDouble(3.5),JsonFalse))))))
+    }
+
     "contain mixed types" in new Context {
       parser.convertToJsonObject("{\"a\":3.5,\"b\":2,\"c\":\"\",\"d\":\"Aviva\",\"d1\":[1,false],\"e\":null,\"f\":false,\"g\":true}") must_==
         JsonObject(Map(

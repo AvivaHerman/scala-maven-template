@@ -70,7 +70,7 @@ class Parser {
   }
 
   private def convertToKeyValue(fieldStr: String): (String, JsonValue) = {
-    trimEdges(fieldStr.split(":")(0)) -> convertToJsonValue(fieldStr.split(":")(1))
+    trimEdges(fieldStr.split(":")(0)) -> convertToJsonValue(fieldStr.split(":").tail.mkString(":"))
   }
 
   def convertToJsonObject(objStr: String): JsonObject = {
