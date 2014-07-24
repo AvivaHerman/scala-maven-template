@@ -45,6 +45,10 @@ class PrinterTest extends SpecificationWithJUnit {
       printer.compactPrint(JsonObject(Map("a" -> JsonArray(JsonFalse,JsonNull,JsonObject(Map()))))) must_== """{"a":[false,null,{}]}"""
     }
 
+    "print object with object as value" in new Context {
+      printer.compactPrint(JsonObject(Map("a" -> JsonObject(Map("b" -> JsonDouble(3.4),"c" -> JsonString("abc")))))) must_== """{"a":{"b":3.4,"c":"abc"}}"""
+    }
+
 
   }
 
