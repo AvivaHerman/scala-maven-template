@@ -28,6 +28,12 @@ class PrinterTest extends SpecificationWithJUnit {
     "print JsonObjects with strings" in new Context {
       printer.compactPrint(JsonObject(Map("a" -> JsonString("a"), "b" -> JsonString("b")))) must_== """{"a":"a","b":"b"}"""
     }
+
+    "print object object with null" in new Context {
+      printer.compactPrint(JsonObject(Map("a" -> JsonNull))) must_== """{"a":null}"""
+    }
+
+
   }
 
 }

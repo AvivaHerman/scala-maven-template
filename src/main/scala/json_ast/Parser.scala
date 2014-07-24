@@ -33,7 +33,7 @@ class Parser {
     else JsonDouble(str.toDouble)
 
   private def convertToJsonArray(str: String): JsonArray =
-    JsonArray(splitWithBalancedBrackets(str).map(s => convertToJsonValue(s)))
+    JsonArray(splitWithBalancedBrackets(str).map(s => convertToJsonValue(s)):_*)
 
   private def trimBrackets(str: String) = str.init.tail
 
