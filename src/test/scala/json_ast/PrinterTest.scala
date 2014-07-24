@@ -24,6 +24,10 @@ class PrinterTest extends SpecificationWithJUnit {
     "print JsonObjects with doubles" in new Context {
       printer.compactPrint(JsonObject(Map("a" -> JsonDouble(3.0), "b" -> JsonDouble(2.0)))) must_== """{"a":3.0,"b":2.0}"""
     }
+
+    "print JsonObjects with strings" in new Context {
+      printer.compactPrint(JsonObject(Map("a" -> JsonString("a"), "b" -> JsonString("b")))) must_== """{"a":"a","b":"b"}"""
+    }
   }
 
 }
