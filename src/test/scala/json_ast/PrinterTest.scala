@@ -29,16 +29,20 @@ class PrinterTest extends SpecificationWithJUnit {
       printer.compactPrint(JsonObject(Map("a" -> JsonString("a"), "b" -> JsonString("b")))) must_== """{"a":"a","b":"b"}"""
     }
 
-    "print object object with null" in new Context {
+    "print object with null" in new Context {
       printer.compactPrint(JsonObject(Map("a" -> JsonNull))) must_== """{"a":null}"""
     }
 
-    "print object object with true" in new Context {
+    "print object with true" in new Context {
       printer.compactPrint(JsonObject(Map("a" -> JsonTrue))) must_== """{"a":true}"""
     }
 
-    "print object object with false" in new Context {
+    "print object with false" in new Context {
       printer.compactPrint(JsonObject(Map("a" -> JsonFalse))) must_== """{"a":false}"""
+    }
+
+    "print object with array" in new Context {
+      printer.compactPrint(JsonObject(Map("a" -> JsonArray(JsonFalse,JsonNull,JsonObject(Map()))))) must_== """{"a":[false,null,{}]}"""
     }
 
 
